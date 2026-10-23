@@ -31,6 +31,7 @@ public class CompassWidgetProvider extends AppWidgetProvider {
     public static final String KEY_ACCURACY = "accuracy";
     public static final String KEY_LOCATION_TIME = "location_time";
     public static final String KEY_FIX_ELAPSED_NANOS = "fix_elapsed_nanos";
+    public static final String KEY_TRACKING_ENABLED = "tracking_enabled";
 
     static final String STATE_PERMISSION = "permission";
     static final String STATE_DISABLED = "disabled";
@@ -38,6 +39,7 @@ public class CompassWidgetProvider extends AppWidgetProvider {
     static final String STATE_NO_SIGNAL = "no_signal";
     static final String STATE_ACTIVE = "active";
     static final String STATE_STOPPED = "stopped";
+    static final String STATE_BACKGROUND_PERMISSION = "background_permission";
 
     @Override
     public void onUpdate(Context context, AppWidgetManager manager, int[] ids) {
@@ -46,6 +48,10 @@ public class CompassWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onDisabled(Context context) {
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
+                .putBoolean(KEY_TRACKING_ENABLED, false)
+                .putString(KEY_GPS_STATE, STATE_STOPPED)
+                .apply();
         context.stopService(new Intent(context, CompassGpsService.class));
     }
 
@@ -116,6 +122,8 @@ public class CompassWidgetProvider extends AppWidgetProvider {
         } else if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 || STATE_PERMISSION.equals(gpsState)) {
             status = "Permissão de localização precisa necessária";
+        } else if (STATE_BACKGROUND_PERMISSION.equals(gpsState)) {
+            status = "Permita localização sempre para reiniciar o GPS";
         } else if (STATE_DISABLED.equals(gpsState)) {
             status = hasLocation ? "GPS indisponível · coordenadas antigas" : "GPS indisponível";
         } else if (STATE_STOPPED.equals(gpsState)) {

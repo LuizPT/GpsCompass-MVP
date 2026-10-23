@@ -19,6 +19,7 @@ Captura do widget no emulador Android 14 (1920×720), com coordenadas simuladas 
 - Mostra latitude e longitude WGS84 com seis casas decimais, precisão horizontal de `Location.getAccuracy()` e hora da correção.
 - Depois de 15 segundos sem correção GPS recente, marca a posição como antiga. O serviço mantém uma única subscrição GPS.
 - Depois da permissão, toque no widget para iniciar o serviço de localização. O último widget removido ou a ação “Parar GPS” na notificação encerra o serviço.
+- A ativação fica guardada e o serviço retoma após reiniciar o rádio ou atualizar a aplicação, desde que o widget continue instalado. Em Android 10 ou superior, conceda também localização “sempre” para permitir o arranque automático; sem essa permissão, inicie o GPS manualmente.
 - Os botões 112 e 117 abrem confirmação e usam `ACTION_DIAL`; não iniciam chamadas.
 - Não inclui integração ATOTO/SYU, vigilância de câmara, reinícios automáticos, anúncios, telemetria, contas ou dependências de rede.
 
@@ -31,6 +32,6 @@ Com Android SDK 34 e Java 17:
 adb install -r app\build\outputs\apk\debug\app-debug.apk
 ```
 
-Permissões declaradas: localização precisa e aproximada (a aplicação exige precisa para rumo GPS), serviço em primeiro plano de localização e notificações (para a notificação contínua com ação para parar). Não é pedida localização em segundo plano.
+Permissões declaradas: localização precisa e aproximada (a aplicação exige precisa para rumo GPS), serviço em primeiro plano de localização, notificações e receção de arranque do dispositivo. Em Android 10+, localização em segundo plano é pedida separadamente e apenas para retomar o GPS após reinício; a utilização durante a sessão continua disponível se o utilizador não conceder essa permissão.
 
 O emulador pode validar interface, permissões e caminhos sem GPS simulado. A qualidade e disponibilidade de rumo dependem do recetor GPS e devem ser verificadas no ZQ9109 em movimento.

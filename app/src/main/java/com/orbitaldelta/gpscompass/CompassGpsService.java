@@ -22,12 +22,14 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.SystemClock;
+import android.util.Log;
 
 public class CompassGpsService extends Service {
     public static final String ACTION_START = "com.orbitaldelta.gpscompass.START_GPS";
     public static final String ACTION_STOP = "com.orbitaldelta.gpscompass.STOP_GPS";
     private static final String CHANNEL_ID = "gps_compass_location";
     private static final int NOTIFICATION_ID = 3101;
+    private static final String TAG = "GpsCompassService";
     private static final long LOCATION_UPDATE_MS = 3_000L;
     private static final long WIDGET_RENDER_MIN_MS = 3_000L;
     private static final long STATE_CHECK_MS = 5_000L;
@@ -71,6 +73,7 @@ public class CompassGpsService extends Service {
         @Override
         public void run() {
             if (!CompassWidgetProvider.hasWidgets(CompassGpsService.this)) {
+                state().edit().putBoolean(CompassWidgetProvider.KEY_TRACKING_ENABLED, false).apply();
                 stopSelf();
                 return;
             }
@@ -97,14 +100,19 @@ public class CompassGpsService extends Service {
         }
     };
 
-    public static void start(Context context) {
+    public static boolean start(Context context) {
         Intent intent = new Intent(context, CompassGpsService.class).setAction(ACTION_START);
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) context.startForegroundService(intent);
             else context.startService(intent);
-        } catch (RuntimeException ignored) {
-            // A widget host can deliver an update outside an allowed foreground-start window.
-            // Opening the widget launches MainActivity, which can start the service in the foreground.
+            return true;
+        } catch (RuntimeException exception) {
+            Log.w(TAG, "Could not start the GPS foreground service", exception);
+            context.getSharedPreferences(CompassWidgetProvider.PREFS, Context.MODE_PRIVATE).edit()
+                    .putString(CompassWidgetProvider.KEY_GPS_STATE, CompassWidgetProvider.STATE_STOPPED)
+                    .apply();
+            CompassWidgetProvider.renderAll(context);
+            return false;
         }
     }
 
@@ -118,10 +126,12 @@ public class CompassGpsService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null && ACTION_STOP.equals(intent.getAction())) {
+            state().edit().putBoolean(CompassWidgetProvider.KEY_TRACKING_ENABLED, false).apply();
             stopSelf();
             return START_NOT_STICKY;
         }
         if (!CompassWidgetProvider.hasWidgets(this)) {
+            state().edit().putBoolean(CompassWidgetProvider.KEY_TRACKING_ENABLED, false).apply();
             stopSelf();
             return START_NOT_STICKY;
         }
@@ -139,6 +149,7 @@ public class CompassGpsService extends Service {
             return START_NOT_STICKY;
         }
 
+        state().edit().putBoolean(CompassWidgetProvider.KEY_TRACKING_ENABLED, true).apply();
         serviceStartedElapsed = SystemClock.elapsedRealtime();
         startGpsUpdates();
         handler.removeCallbacks(stateChecker);
