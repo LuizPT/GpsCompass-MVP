@@ -6,6 +6,12 @@ Protótipo Android leve, com um tipo de widget redimensionável para Nova Launch
 
 Este MVP adapta [ATOTO_GpsCompass](https://github.com/tyguy101a/ATOTO_GpsCompass) e é publicado com autorização de redistribuição do titular dos direitos da origem. O repositório original não identifica uma licença pública; esta publicação não atribui uma licença open source ao código de origem.
 
+## Pré-visualização
+
+Captura do widget no emulador Android 14 (1920×720), com coordenadas simuladas para demonstração:
+
+![Widget GPS Compass ZQ9109](docs/widget-preview.png)
+
 ## Comportamento
 
 - Usa `LocationManager` e apenas `GPS_PROVIDER`; não lê magnetómetro nem serviços de localização em rede.
