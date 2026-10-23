@@ -1,0 +1,7 @@
+<resources>
+    <color name="od_navy">#061425</color>
+    <color name="od_red">#D83A34</color>
+    <color name="od_text">#FFFFFF</color>
+    <color name="od_muted">#AAB6C4</color>
+    <color name="ic_launcher_background">#031737</color>
+</resources>

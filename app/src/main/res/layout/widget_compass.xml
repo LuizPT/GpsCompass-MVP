@@ -1,0 +1,189 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="@drawable/widget_bg">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.85"
+        android:orientation="vertical"
+        android:gravity="center_vertical|center_horizontal">
+
+        <TextView
+            android:id="@+id/widget_direction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="--"
+            android:textColor="#FFFFFF"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/widget_degrees"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="--°"
+            android:textColor="#D7E7F5"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/widget_heading_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="Último rumo"
+            android:textColor="#7DD3FC"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2.15"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/widget_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="À procura de sinal GPS"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/widget_latitude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="Latitude: --"
+                android:textColor="#D7E7F5"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/widget_longitude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="Longitude: --"
+                android:textColor="#D7E7F5"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/widget_location_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="Sem coordenadas recebidas"
+                android:textColor="#94A3B8"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/widget_compass_face"
+            android:layout_width="68dp"
+            android:layout_height="68dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="Bússola de rumo GPS"
+            android:importantForAccessibility="yes">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription=""
+                android:src="@drawable/widget_compass_ring" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|center_horizontal"
+                android:layout_marginTop="1dp"
+                android:text="N"
+                android:textColor="#F87171"
+                android:textSize="8sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/widget_compass_pointer"
+                android:layout_width="32dp"
+                android:layout_height="44dp"
+                android:layout_gravity="center"
+                android:contentDescription=""
+                android:scaleType="fitCenter"
+                android:src="@drawable/widget_compass_needle"
+                android:visibility="gone" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="156dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:paddingStart="4dp">
+
+        <Button
+            android:id="@+id/widget_emergency"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:padding="2dp"
+            android:background="@drawable/widget_button_emergency"
+            android:text="112 — Emergência"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp" />
+
+        <Button
+            android:id="@+id/widget_fire"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:layout_marginTop="3dp"
+            android:padding="2dp"
+            android:background="@drawable/widget_button_fire"
+            android:text="117 — Alerta Incêndios"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/widget_copy"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:layout_marginTop="3dp"
+            android:padding="2dp"
+            android:background="@drawable/widget_button_copy"
+            android:text="Copiar coordenadas"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="10sp" />
+    </LinearLayout>
+</LinearLayout>

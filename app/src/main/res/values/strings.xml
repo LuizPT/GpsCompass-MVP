@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">GPS Compass</string>
+    <string name="widget_description">Bússola GPS e coordenadas do veículo</string>
+</resources>
